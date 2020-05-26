@@ -18,6 +18,8 @@ services:
     image: mongo
     ports:  # Public ports for direct debugging
       - 27017:27017
+    # TODO: Volume mounts for "production" data so we don't lose anything on
+    # restarts
   test:
     <<: *api
     image: quickpickup:test
