@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  api: &api
+    image: quickpickup
+    build:
+      context: .
+      target: ${DOCKER_BUILD_API_TARGET:-final}
+    # TODO: Refactor to split development mode from production
+    command: flask run --host 0.0.0.0 --port 8080
+    environment:
+      FLASK_APP: quickpickup.api
+      MONGO_URI: 'mongodb://mongo:27017'
+    links:
+      - mongo
+    ports:  # Public ports for direct debugging
+      - 8080:8080
+  mongo:
+    image: mongo
+    ports:  # Public ports for direct debugging
+      - 27017:27017
+  test:
+    <<: *api
+    image: quickpickup:test
+    build:
+      context: .
+      target: test
+    environment:
+      MONGO_URI: 'mongodb://mongo:27017'
+      INTEGRATION_TEST: 'True'
+    ports: []
+    command: pytest -v ./test
