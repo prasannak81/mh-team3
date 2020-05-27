@@ -23,6 +23,10 @@ services:
       context: .
       dockerfile: Dockerfile.chat
     env_file: chat.env
+    environment:
+      ROOM_NAME: ${ROOM_NAME}
+      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
+      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
 
 volumes:
   mongodata:
