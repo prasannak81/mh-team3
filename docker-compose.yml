@@ -24,6 +24,7 @@ services:
       - 80:80
       # No SSL support (yet)
       # - 443:443
+    # TODO: Volume mount in React build for dev support?
     command: [nginx-debug, '-g', 'daemon off;']
   mongo:
     image: mongo
