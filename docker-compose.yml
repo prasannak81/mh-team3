@@ -18,6 +18,8 @@ services:
     image: mongo
     ports:  # Public ports for direct debugging
       - 27017:27017
+    logging:
+      driver: none
     # TODO: Volume mounts for "production" data so we don't lose anything on
     # restarts
   chatbot:
@@ -25,16 +27,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.chat
-    env_file: chat.env
+    # Use .env file instead
+    # env_file: chat.env
     environment:
-      ROOM_NAME: ${ROOM_NAME}
-      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
-      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
+      ROOM_NAME: ${ROOM_NAME:-test}
+      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME:-test}
+      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN:-test}
     ports:
       - 5030:5030
 
   mvsensor:
-    image: quickpickup-mvsensor-mh2020:v1.1
+    # Allow image override since we don't have this locally
+    image: ${MV_SENSOR_IMAGE:-quickpickup-mvsensor-mh2020:v1.1}
     links:
       - chatbot
 
