@@ -31,6 +31,7 @@ if WEBEX_TEAMS_ACCESS_TOKEN is None:
         f"Please set environment variable for room name, 'export WEBEX_TEAMS_ACCESS_TOKEN=<webex_teams_access_token>'"
     )
 
+
 @flask_app.route("/", methods=["GET"])
 def index():
     """ Simple healthcheck endpoint. """
@@ -50,9 +51,11 @@ def camera_listener():
     if request.method == "POST":
         # Check for the state of the vehicle
         if request.json["type"] == "arrival":
-            content = f"Vehicle has arrived in Parking Space #{request.json['parking_space']}"
+            content = (
+                f"Vehicle has arrived in Parking Space #{request.json['parking_space']}"
+            )
         elif request.json["type"] == "departure":
-            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']}"
+            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']}, was there for {request.json['time_elapsed']} seconds"
 
         # Get the list of all rooms that the bot is joined to
         all_rooms = api.rooms.list()
@@ -60,9 +63,7 @@ def camera_listener():
         for room in all_rooms:
             if ROOM_NAME in room.title:
                 # Send camera picture to the WebEx Teams chat as the bot
-                api.messages.create(
-                    roomId=room.id, markdown=f"## {content}"
-                )
+                api.messages.create(roomId=room.id, markdown=f"## {content}")
 
         return "OK"
 
@@ -79,17 +80,8 @@ def wifi_listener():
       "dessert_pref" (string): Preference of a dessert
     """
     if request.method == "POST":
-        # Set the name of the room from env variable
-        room_name = os.environ.get("ROOM_NAME")
-
-        if room_name is None:
-            raise ValueError(
-                "Please set environment variable for room name, 'export ROOM_NAME=<room_name>'"
-            )
-
         # Get the list of all rooms that the bot is joined to
         all_rooms = api.rooms.list()
-        rooms = [room.id for room in all_rooms if room_name in room.title]
 
         # Send the order information to the chat room
         content = (
@@ -97,7 +89,10 @@ def wifi_listener():
             f"  Customer Name: {request.json['name']}<br>"
             f"  Preferred Dessert: {request.json['dessert_pref']}  "
         )
-        api.messages.create(roomId=rooms[0], markdown=content)
+
+        for room in all_rooms:
+            if ROOM_NAME in room.title:
+                api.messages.create(roomId=room.id, markdown=content)
 
         return "OK"
 
