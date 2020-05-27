@@ -34,7 +34,7 @@ services:
       - 5030:5030
 
   mvsensor:
-    image: quickpickup-mvsensor-mh2020:v1.0
+    image: quickpickup-mvsensor-mh2020:v1.1
     links:
       - chatbot
 
