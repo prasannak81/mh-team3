@@ -4,6 +4,7 @@ import pytest
 
 from quickpickup import db
 from quickpickup import api
+from quickpickup import hooks
 
 
 # This disables these tests unless `INTEGRATION_TEST` env var is non-empty
@@ -22,6 +23,7 @@ pytestmark = pytest.mark.skipif(
 
 def teardown_module():
     db.collection("test").delete_many({})
+    db.collection("test_hook").delete_many({})
 
 
 def test_create_fails_without_post_body():
@@ -94,3 +96,38 @@ def test_read_handles_bool_types():
     assert resp.get_json() == [
         {"_id": "1", "test": False, "updated": False},
     ]
+
+
+def test_hooks_work():
+    class TestHook:
+        def create(self, _id, obj):
+            obj["hooked"] = True
+            return obj
+
+        def update(self, _id, obj):
+            obj["unhooked"] = True
+            return obj
+
+    hooks.register("test_hook", TestHook())
+
+    client = api.app.test_client()
+    resp = client.post("/create/test_hook/1", json={"test": True})
+
+    assert resp.status_code == 200
+    assert resp.get_json() == {"_id": "1"}
+
+    resp = client.get("/read/test_hook/1")
+
+    assert resp.status_code == 200
+    assert resp.get_json() == [{"_id": "1", "test": True, "hooked": True}]
+
+    resp = client.put("/update/test_hook/1", json={"updated": False, "test": False})
+
+    assert resp.status_code == 200
+    assert resp.get_json() == {
+        "_id": "1",
+        "test": False,
+        "updated": False,
+        "hooked": True,
+        "unhooked": True,
+    }
