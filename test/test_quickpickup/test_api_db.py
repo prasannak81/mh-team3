@@ -110,20 +110,25 @@ def test_hooks_work():
 
     hooks.register("test_hook", TestHook())
 
+    # Chaining behavior here 'cause I'm lazy about fixutres
+
     client = api.app.test_client()
     resp = client.post("/create/test_hook/1", json={"test": True})
-
-    assert resp.status_code == 200
     assert resp.get_json() == {"_id": "1"}
 
     resp = client.get("/read/test_hook/1")
-
-    assert resp.status_code == 200
     assert resp.get_json() == [{"_id": "1", "test": True, "hooked": True}]
 
     resp = client.put("/update/test_hook/1", json={"updated": False, "test": False})
+    assert resp.get_json() == {
+        "_id": "1",
+        "test": False,
+        "updated": False,
+        "hooked": True,
+        "unhooked": True,
+    }
 
-    assert resp.status_code == 200
+    resp = client.get("/read/test_hook/1")
     assert resp.get_json() == {
         "_id": "1",
         "test": False,
