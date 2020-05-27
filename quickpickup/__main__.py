@@ -1,16 +1,20 @@
-import logging
+# System imports
+import logging.config
+
+# 3rd party
 import waitress
 
-from .api import app
+# Package imports
+from . import api
 
 
 def main():
     """ Run the webserver using waitress. """
-    waitress.serve(app, listen="0.0.0.0:8080")
+    waitress.serve(api.app, listen="0.0.0.0:8080")
 
 
 def configure_logging():
-    logging.dictConfig(
+    logging.config.dictConfig(
         {
             "version": 1,
             "disable_existing_loggers": False,

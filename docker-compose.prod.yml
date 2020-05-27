@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  api:
+    image: quickpickup
+    build:
+      context: .
+    environment:
+      MONGO_URI: 'mongodb://mongo:27017'
+    links:
+      - mongo
+    ports:  # Public ports for direct debugging
+      # TODO: Remove this when we have an nginx proxy
+      - 8080:8080
+  mongo:
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+volumes:
+  mongodata:
