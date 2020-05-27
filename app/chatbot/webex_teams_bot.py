@@ -2,6 +2,7 @@ import json
 import re
 import requests
 import os
+import logging
 import time
 from flask import Flask, request, jsonify
 from webexteamssdk import WebexTeamsAPI
@@ -10,6 +11,7 @@ from webexteamssdk import WebexTeamsAPI
 flask_app = Flask(__name__)
 
 api = WebexTeamsAPI()
+LOGGER = logging.getLogger("ChatBotApp")
 
 # Verify all of the environment variables are defined and available
 ROOM_NAME = os.environ.get("ROOM_NAME")
@@ -55,7 +57,7 @@ def camera_listener():
                 f"Vehicle has arrived in Parking Space #{request.json['parking_space']}"
             )
         elif request.json["type"] == "departure":
-            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']}, was there for {request.json['time_elapsed']} seconds"
+            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']}, was there for {int(request.json['time_elapsed'])} seconds"
 
         # Get the list of all rooms that the bot is joined to
         all_rooms = api.rooms.list()
@@ -63,7 +65,8 @@ def camera_listener():
         for room in all_rooms:
             if ROOM_NAME in room.title:
                 # Send camera picture to the WebEx Teams chat as the bot
-                api.messages.create(roomId=room.id, markdown=f"## {content}")
+                response = api.messages.create(roomId=room.id, markdown=f"## {content}{request.json['feed_url']}")
+                LOGGER.info(response)
 
         return "OK"
 
@@ -92,7 +95,8 @@ def wifi_listener():
 
         for room in all_rooms:
             if ROOM_NAME in room.title:
-                api.messages.create(roomId=room.id, markdown=content)
+                response = api.messages.create(roomId=room.id, markdown=content)
+                LOGGER.info(response)
 
         return "OK"
 
