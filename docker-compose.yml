@@ -30,4 +30,4 @@ services:
       MONGO_URI: 'mongodb://mongo:27017'
       INTEGRATION_TEST: 'True'
     ports: []
-    command: pytest -v ./test
+    command: pytest -v --color=yes ./test
