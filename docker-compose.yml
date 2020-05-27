@@ -30,6 +30,8 @@ services:
       ROOM_NAME: ${ROOM_NAME}
       WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
       WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
+    ports:
+      - 5030:5030
 
   mvsensor:
     image: quickpickup-mvsensor-mh2020:v1.0
