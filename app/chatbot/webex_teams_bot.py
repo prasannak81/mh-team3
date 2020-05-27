@@ -65,7 +65,9 @@ def camera_listener():
         for room in all_rooms:
             if ROOM_NAME in room.title:
                 # Send camera picture to the WebEx Teams chat as the bot
-                response = api.messages.create(roomId=room.id, markdown=f"## {content}{request.json['feed_url']}")
+                response = api.messages.create(
+                    roomId=room.id, markdown=f"## {content}{request.json['feed_url']}"
+                )
                 LOGGER.info(response)
 
         return "OK"
