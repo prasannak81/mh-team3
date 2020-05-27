@@ -48,3 +48,24 @@ services we want in a more locked fashion.
 docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
+## Chat Bot Integrations
+
+Leverages the [CiscoDevNet/webexteamssdk](https://github.com/CiscoDevNet/webexteamssdk) to extend
+capabilities into the Teams chat for operational efficiency.  
+
+### Chat Bot Requirements
+
+#### Environment Variables
+
+- ROOM_NAME: Name of the WebEx Teams room that the chat bot should be invited to
+- WEBEX_BOT_USERNAME: Bot ID
+- WEBEX_TEAMS_ACCESS_TOKEN: Bot Access token
+
+#### ChatBot - WebEx Teams
+
+The chat bot named `quickpickup2020hackathon@webex.bot` should be invited into the room that the
+orders are being processed in.
+
+#### ChatBot - Required Python Packages
+
+See the file chat_bot_requirements.txt. Install with `pip install -r chat_bot_requirements.
