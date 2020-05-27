@@ -21,15 +21,21 @@ services:
     # TODO: Volume mounts for "production" data so we don't lose anything on
     # restarts
   chatbot:
-    image: webex_teams_chatbot
+    image: webex_teams_chatbot:0.3.1
     build:
       context: .
-      dockerfile: Dockerfile-chat
+      dockerfile: Dockerfile.chat
     env_file: chat.env
-    networks:
-      - "backend_network"
-    ports:
-      - 5030:5030
+    environment:
+      ROOM_NAME: ${ROOM_NAME}
+      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
+      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
+
+  mvsensor:
+    image: quickpickup-mvsensor-mh2020:v1.0
+    links:
+      - chatbot
+
   test:
     <<: *api
     image: quickpickup:test
@@ -41,8 +47,3 @@ services:
       INTEGRATION_TEST: 'True'
     ports: []
     command: pytest -v --color=yes ./test
-networks:
-  backend_network:
-    driver: "bridge"
-  frontend_network:
-    driver: "bridge"
