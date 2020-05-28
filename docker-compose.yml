@@ -53,11 +53,11 @@ services:
     links:
       - chatbot
 
-  test:
+  api-test:
     <<: *api
     image: quickpickup:test
     build:
       context: ./api
       target: test
     ports: []
-    command: bash -c 'INTEGRATION_TEST=True pytest -vv --color=yes ./test'
+    command: pytest -vv --color=yes ./test
