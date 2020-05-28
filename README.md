@@ -1,10 +1,10 @@
 # quickpickup
 
-A meraki app to facilitate contactless pickup for customer orders.
+A Meraki app to facilitate contactless pickup for customer orders.
 
 ### Code style and formatting
 
-This section descripts our code formatting tools.
+This section describes our code formatting tools.
 
 #### Python
 
@@ -57,9 +57,7 @@ capabilities into the Teams chat for operational efficiency.
 
 #### Environment Variables
 
-- ROOM_NAME: Name of the WebEx Teams room that the chat bot should be invited to
-- WEBEX_BOT_USERNAME: Bot ID
-- WEBEX_TEAMS_ACCESS_TOKEN: Bot Access token
+See the `dotenv.example` file to see all environment variables expected.
 
 #### ChatBot - WebEx Teams
 
