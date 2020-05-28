@@ -1,4 +1,5 @@
 import os
+from unittest import mock
 
 import pytest
 
@@ -9,8 +10,7 @@ from quickpickup import hooks
 
 # This disables these tests unless `INTEGRATION_TEST` env var is non-empty
 pytestmark = pytest.mark.skipif(
-    not os.environ.get("INTEGRATION_TEST", False),
-    reason="Integration tests not available",
+    os.environ.get("UNIT_ONLY", False), reason="Integration tests not run",
 )
 
 
@@ -24,6 +24,7 @@ pytestmark = pytest.mark.skipif(
 def teardown_module():
     db.collection("test").delete_many({})
     db.collection("test_hook").delete_many({})
+    db.collection("spots").delete_many({})
 
 
 def test_create_fails_without_post_body():
@@ -132,3 +133,24 @@ def test_hooks_work():
     assert resp.get_json() == [
         {"_id": "1", "test": False, "updated": False, "hooked": True, "unhooked": True}
     ]
+
+
+@mock.patch("requests.post")
+def test_chatbot_hook(post):
+    client = api.app.test_client()
+    resp = client.post("/create/spots/1", json={"test": True})
+    assert resp.get_json() == {"_id": "1"}
+
+    payload = {
+        "orderNumber": "Threeve",
+        "_orderready": {"customerName": "Bob Testerton"},
+    }
+
+    resp = client.put("/update/spots/1", json=payload)
+    assert resp.get_json() == {
+        "_id": "1",
+        "test": True,
+        "orderNumber": "Threeve",
+    }
+
+    post.assert_called_once()
