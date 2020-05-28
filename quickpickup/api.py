@@ -9,6 +9,7 @@ import pymongo
 
 # Package imports
 from . import db
+from . import hooks
 
 app = flask.Flask(__name__)
 
@@ -51,6 +52,8 @@ def create(obj_type, _id):
 
     # Forcefully assign the given ID
     obj["_id"] = _id
+
+    hooks.handle(obj_type, "create", _id, obj)
 
     # TODO: Validation to disallow bad object types
     # Get the object type collection
@@ -102,6 +105,8 @@ def read(obj_type, _id):
         log.exception(err)
         flask.abort(400)
 
+    hooks.handle(obj_type, "read", _id, result)
+
     return flask.jsonify(result)
 
 
@@ -128,6 +133,8 @@ def update(obj_type, _id):
         flask.abort(400)
 
     log.info(f"Updating {obj_type}/{_id}")
+
+    hooks.handle(obj_type, "update", _id, obj)
 
     # TODO: Validation to disallow bad object types
     # Get the object type collection
@@ -158,6 +165,8 @@ def delete(obj_type, _id):
     log = logging.getLogger("quickpickup.delete")
 
     log.info(f"Deleting {obj_type}/{_id}")
+
+    hooks.handle(obj_type, "delete", _id)
 
     # TODO: Validation to disallow bad object types
     # Get the object type collection
