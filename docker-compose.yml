@@ -59,4 +59,4 @@ services:
       context: ./api
       target: test
     ports: []
-    command: INTEGRATION_TEST=True pytest -vv --color=yes ./test
+    command: bash -c 'INTEGRATION_TEST=True pytest -vv --color=yes ./test'
