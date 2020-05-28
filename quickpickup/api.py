@@ -11,7 +11,11 @@ import pymongo
 from . import db
 from . import hooks
 
+from . import order_ready
+
 app = flask.Flask(__name__)
+
+hooks.register("spots", order_ready)
 
 
 @app.route("/", methods=["GET"])

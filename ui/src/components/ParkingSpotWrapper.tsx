@@ -3,6 +3,7 @@ import ParkingSpot from './ParkingSpot'
 import { Order, ParkingSpotInfo, ParkingSpotStatus } from '../common/data_types'
 import get_api from '../common/get_api_typed'
 import post_api from '../common/post_api_typed'
+import { APIBASE } from '../common/helpers'
 import moment from 'moment'
 
 const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: 0} }
@@ -37,7 +38,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private getSpotStatus() {
-    get_api<ParkingSpotInfo>("http://localhost:5000/api/read/spots/"+this.props.spotNumber)
+    get_api<ParkingSpotInfo>(APIBASE+"/read/spots/"+this.props.spotNumber)
       .then(
         (spotInfo) => {
           this.setState({ info: spotInfo })
@@ -49,10 +50,10 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
       .catch(err => {console.log(err)});
   }
 
-  private updateSpotStatus(orderNumber: string):void {
+  private updateSpotStatus(orderNumber: string, orderName: string):void {
     const now:number = moment().unix()
 
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now})
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now, "_orderready": { "customerName": orderName } })
       .then(
         (resp) => {
           console.log(resp);
@@ -63,7 +64,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   private resetSpotStatus() {
     const now:number = moment().unix();
 
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now})
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now})
       .then(
         (resp) => {
           console.log(resp);
