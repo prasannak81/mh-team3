@@ -6,11 +6,12 @@ import {Col, Image} from 'react-bootstrap';
 import SpotOrderUpdateWrapper from './SpotOrderUpdateWrapper';
 import { ParkingSpotStatus } from '../common/data_types';
 import { lazyPlural } from '../common/helpers';
+import moment from 'moment'
 
 interface ParkingSpotProps {
   spotNumber: number,
   spotStatus: string,
-  lastUpdated: string,
+  lastUpdated: number,
   activeOrderNumber: string,
   spotUpdater: (orderNumber: string) => void
 }
@@ -22,9 +23,7 @@ const activeCarColors:CameraFeedColor[] = ["black", "blue", "white"];
 
 const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber, spotUpdater }:ParkingSpotProps) => {
   let borderColor:ParkingSpotStatusColor = undefined;
-  const waitingFor:number = Math.floor(Math.random() * 11); //TODO: Determine # minutes from lastUpdated
-
-  //TODO: convert lastUpdated from ISO to relative time
+  const waitingFor:number = Math.round((moment().unix() - lastUpdated) / 60);
 
   switch(spotStatus) {
     case ParkingSpotStatus.Arrived:
@@ -37,6 +36,9 @@ const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastU
       borderColor = "success"
       break;
   }
+
+
+  const lastUpdateDesc:string = lastUpdated ? moment(lastUpdated*1000).fromNow() : "...";
 
   let cameraColor:CameraFeedColor = "open";
 
@@ -58,8 +60,8 @@ const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastU
           </Row>
         </Container>
       </Card.Body>
-      <Card.Footer className="text-muted"><b>Updated:</b> {lastUpdated || "Some Time Ago"}</Card.Footer>
-    </Card>
+      <Card.Footer className="text-muted"><b>Updated:</b> {lastUpdateDesc || "Some Time Ago"}</Card.Footer>
+  </Card>
 };
 
 export default ParkingSpot;

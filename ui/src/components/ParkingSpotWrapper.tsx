@@ -3,8 +3,9 @@ import ParkingSpot from './ParkingSpot'
 import { Order, ParkingSpotInfo, ParkingSpotStatus } from '../common/data_types'
 import get_api from '../common/get_api_typed'
 import post_api from '../common/post_api_typed'
+import moment from 'moment'
 
-const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: ""} }
+const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: 0} }
 type ParkingSpotWrapperState = {
   orders: Order[]
   info: ParkingSpotInfo
@@ -49,7 +50,9 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private updateSpotStatus(orderNumber: string):void {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO"}) //TODO: Set as current ISO
+    const now:number = moment().unix()
+
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now})
       .then(
         (resp) => {
           console.log(resp);
@@ -58,7 +61,9 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private resetSpotStatus() {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"}) //TODO: Set as current ISO
+    const now:number = moment().unix();
+
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now})
       .then(
         (resp) => {
           console.log(resp);
