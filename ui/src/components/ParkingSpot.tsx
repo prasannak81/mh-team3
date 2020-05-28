@@ -10,12 +10,13 @@ interface ParkingSpotProps {
   spotNumber: number,
   spotStatus: string,
   lastUpdated: string,
-  activeOrderNumber: string
+  activeOrderNumber: string,
+  spotUpdater: (orderNumber: string) => void
 }
 
 type ParkingSpotBorderColor = "info" | "warning" | "success" | undefined;
 
-const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber }:ParkingSpotProps) => {
+const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber, spotUpdater }:ParkingSpotProps) => {
   let borderColor:ParkingSpotBorderColor = undefined;
   switch(spotStatus) {
     case ParkingSpotStatus.Arrived:
@@ -34,7 +35,7 @@ const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastU
       <Container>
         <Row>
           <Col>
-            <SpotOrderUpdateWrapper spotNumber={spotNumber} activeOrderNumber={activeOrderNumber}/>
+            <SpotOrderUpdateWrapper spotNumber={spotNumber} activeOrderNumber={activeOrderNumber} spotUpdater={spotUpdater}/>
           </Col>
         </Row>
       </Container>

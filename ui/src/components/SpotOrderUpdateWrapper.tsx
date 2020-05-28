@@ -13,6 +13,7 @@ type State = Readonly<typeof initialState>
 interface SpotOrderUpdateWrapperProps {
   spotNumber: number
   activeOrderNumber?: string
+  spotUpdater: (orderNumber: string) => void
 }
 
 type determineStateFunction = () => Promise<string>;
@@ -40,6 +41,7 @@ class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, Stat
 
   private spotOrderChangeHandler = (event: ChangeEvent<HTMLSelectElement>): void => {
     this.setState({activeOrderNumber: event.target.value})
+    this.props.spotUpdater(event.target.value);
   }
 
   componentWillReceiveProps(nextProps: SpotOrderUpdateWrapperProps) {
