@@ -30,12 +30,6 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
     this.refreshSpotStatus()
   }
 
-  private handleClick = () => {
-    // this.props.determineState().then(newStatus => {
-    //   this.setState({appStatus: newStatus})
-    // })
-  }
-
   private refreshSpotStatus() {
     this.getSpotStatus()
     setTimeout(()=>{this.refreshSpotStatus()}, 5000)

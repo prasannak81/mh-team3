@@ -16,9 +16,6 @@ interface SpotOrderUpdateWrapperProps {
   spotUpdater: (orderNumber: string) => void
 }
 
-type determineStateFunction = () => Promise<string>;
-type btnClickHandlerFunction = () => void;
-
 class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, State> {
 
   constructor(props: SpotOrderUpdateWrapperProps) {
