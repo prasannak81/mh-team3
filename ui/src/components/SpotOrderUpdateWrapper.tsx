@@ -22,7 +22,8 @@ class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, Stat
 
   constructor(props: SpotOrderUpdateWrapperProps) {
     super(props)
-    this.state = {orders: [], activeOrderNumber: props.activeOrderNumber || ""}
+    this.state = {orders: [], activeOrderNumber: (props.activeOrderNumber || "")}
+    // console.log(props.activeOrderNumber)
   }
 
   render() {
@@ -39,6 +40,10 @@ class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, Stat
 
   private spotOrderChangeHandler = (event: ChangeEvent<HTMLSelectElement>): void => {
     this.setState({activeOrderNumber: event.target.value})
+  }
+
+  componentWillReceiveProps(nextProps: SpotOrderUpdateWrapperProps) {
+    this.setState({activeOrderNumber: (nextProps.activeOrderNumber || "")})
   }
 
   componentDidMount() {

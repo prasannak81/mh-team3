@@ -31,7 +31,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
 
   componentDidMount() {
     this.updateSpotStatus()
-    setTimeout(()=>{this.updateSpotStatus()}, 1000)
+    // setTimeout(()=>{this.updateSpotStatus()}, 1000)
   }
 
   private handleClick = () => {

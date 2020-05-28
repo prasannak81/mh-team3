@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Container className="p-3" fluid={true}>
         <Jumbotron>
           <h1 className="header">
-            ResturantX Contactless Pickup Dashboard
+          RestaurantX Contactless Pickup Dashboard
           </h1>
         </Jumbotron>
         <Row xs={1} md={2} lg={4}>

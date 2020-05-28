@@ -8,7 +8,7 @@ interface SurroundProps {
 const Surround: React.FC<SurroundProps> = ({ children }:SurroundProps) => (
   <>
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand>ResturantX</Navbar.Brand>
+      <Navbar.Brand>RestaurantX</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         <Navbar.Text>
