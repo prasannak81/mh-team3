@@ -186,9 +186,9 @@ def update_order():
     """
     if request.method == "POST":
         content = (
-            f" # Order Update - {customerName}\n"
-            f"    Order Number: {orderNumber}\n"
-            f"    Parking Spot: {spotNumber}"
+            f" # Order Update - {request.json['customerName']}\n"
+            f"    Order Number: {request.json['orderNumber']}\n"
+            f"    Parking Spot: {request.json['spotNumber']}"
         )
 
         for room in ALL_ROOMS:
