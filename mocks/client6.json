@@ -1,0 +1,29 @@
+{
+    "client": {
+        "mac": "00-01-02-10-11-12",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.85 Safari/537.36"
+    },
+    "company": {
+        "id": 998,
+        "name": "quickpickup"
+    },
+    "session": {
+        "authenticationTime": "2020-05-27T23:21:03+0000"
+    },
+    "user": {
+        "email": "Ruth@example.com",
+        "firstName": "Ruth",
+        "id": 32623,
+        "lastName": "Dillon",
+        "provider": "Facebook",
+        "visitCountsForVenue": {
+            "821": 5
+        },
+        "venue": {
+            "id": 821,
+            "latitude": "55.378051",
+            "longitude":  "-3.435973",
+            "name": "RestarauntX"
+        }
+    }
+}
