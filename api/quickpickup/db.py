@@ -3,7 +3,7 @@ import os
 import pymongo
 
 
-def get_client(uri="mongodb://localhost:27017"):
+def get_client(uri="mongodb://mongodb:27017"):
     """
     Return Pymongo client instance.
 

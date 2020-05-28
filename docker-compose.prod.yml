@@ -4,8 +4,6 @@ services:
     image: quickpickup:api
     build:
       context: .
-    environment:
-      MONGO_URI: 'mongodb://mongo:27017'
     links:
       - mongo
 

@@ -5,11 +5,9 @@ services:
     build:
       context: ./api
       target: ${DOCKER_BUILD_API_TARGET:-final}
-    # TODO: Refactor to split development mode from production
     command: flask run --host 0.0.0.0 --port 8080
     environment:
       FLASK_APP: quickpickup.api
-      MONGO_URI: 'mongodb://mongo:27017'
     links:
       - mongo
     ports:  # Public ports for direct debugging
@@ -60,8 +58,5 @@ services:
     build:
       context: ./api
       target: test
-    environment:
-      MONGO_URI: 'mongodb://mongo:27017'
-      INTEGRATION_TEST: 'True'
     ports: []
-    command: pytest -vv --color=yes ./test
+    command: INTEGRATION_TEST=True pytest -vv --color=yes ./test

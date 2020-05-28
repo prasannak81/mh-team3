@@ -41,42 +41,42 @@ API_CALLS = [
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client1.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/127",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client2.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/135",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client3.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/122",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client4.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/2161",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client5.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/123162",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client6.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/32623",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client7.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/203633",
-        "method": "get"
+        "method": "get",
     },
     {
         "fixture_path": f"{os.getcwd()}/mocks/fixtures/api_client8.json",
         "url": "https://sandbox.purpleportal.net/api/company/v1/venue/821/visitor/43236",
-        "method": "get"
+        "method": "get",
     },
 ]
 
@@ -137,7 +137,9 @@ def wifi_listener():
         visit_count = request.json["user"]["visitCountsForVenue"]
 
         # Get name
-        customer_name = f"{request.json['user']['firstName']} {request.json['user']['lastName']}"
+        customer_name = (
+            f"{request.json['user']['firstName']} {request.json['user']['lastName']}"
+        )
 
         # Setup Mock
         with requests_mock.Mocker() as m:
@@ -150,14 +152,15 @@ def wifi_listener():
                     continue
 
             # Get order number from API
-            
+
             # Get car color ID from the Purple API
             resp = requests.get(
-                url=f"https://sandbox.purpleportal.net/api/company/v1/venue/{site_id}/visitor/{user_id}")
+                url=f"https://sandbox.purpleportal.net/api/company/v1/venue/{site_id}/visitor/{user_id}"
+            )
 
             data = resp.json()
 
-            print(data['data']['user'][0]['form_data'][0]['response'])
+            print(data["data"]["user"][0]["form_data"][0]["response"])
 
             # Send the order information to the chat room
             content = (
@@ -191,11 +194,11 @@ def update_order():
         for room in ALL_ROOMS:
             if ROOM_NAME in room.title:
                 # Send camera picture to the WebEx Teams chat as the bot
-                response = api.messages.create(
-                    roomId=room.id, markdown=content)
+                response = api.messages.create(roomId=room.id, markdown=content)
                 LOGGER.info(response)
-        
+
         return "OK"
+
 
 if __name__ == "__main__":
     flask_app.run(host="0.0.0.0", port=5030)
