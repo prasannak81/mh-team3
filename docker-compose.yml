@@ -14,6 +14,7 @@ services:
       - mongo
     ports:  # Public ports for direct debugging
       - 8080:8080
+
   nginx:
     image: quickpickup:nginx
     build:
@@ -22,18 +23,15 @@ services:
       - api
     ports:
       - 80:80
-      # No SSL support (yet)
-      # - 443:443
-    # TODO: Volume mount in React build for dev support?
     command: [nginx-debug, '-g', 'daemon off;']
+
   mongo:
     image: mongo
     ports:  # Public ports for direct debugging
       - 27017:27017
     logging:
       driver: none
-    # TODO: Volume mounts for "production" data so we don't lose anything on
-    # restarts
+
   chatbot:
     image: webex_teams_chatbot:0.3.1
     build:
@@ -49,8 +47,13 @@ services:
       - 5030:5030
 
   mvsensor:
-    # Allow image override since we don't have this locally
-    image: ${MV_SENSOR_IMAGE:-quickpickup-mvsensor-mh2020:v1.1}
+    image: quickpickup:mvsensor
+    build:
+      context: ./mvsensor
+    environment:
+      MVSENSOR_API_KEY: ${MVSENSOR_API_KEY:-test}
+      MVSENSOR_SERIAL: ${MVSENSOR_SERIAL:-test}
+      MVSENSOR_WEBHOOK_URL: ${MVSENSOR_WEBHOOK_URL:-http://chatbot:5030}
     links:
       - chatbot
 
