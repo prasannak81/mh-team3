@@ -1,21 +1,33 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import {Col} from 'react-bootstrap';
+import SpotOrderUpdateWrapper from './SpotOrderUpdateWrapper';
 
 interface ParkingSpotProps {
-  spotNumber: number
-  spotName?: string
+  spotNumber: number,
+  spotStatus: string,
+  lastUpdated: string,
+  activeOrderNumber: string
 }
 
-const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotName }:ParkingSpotProps) => (
-  <Card className="text-center">
-    <Card.Header>Parking Spot {spotNumber || "?"}</Card.Header>
+const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber }:ParkingSpotProps) => (
+  <Card className="text-center" style={{ marginTop: '15px', marginBottom: '15px' }}>
+    <Card.Header>Parking Spot <b>{spotNumber || "?"}</b></Card.Header>
     <Card.Body>
-      <Card.Title>{spotName || "DEFAULT VALUE"}</Card.Title>
-      <Card.Text>
-        With supporting text below as a natural lead-in to additional content.
-      </Card.Text>
+      <Container>
+        <Row>
+          <Col>
+            Status: <b>{spotStatus}</b>
+          </Col>
+          <Col>
+          <SpotOrderUpdateWrapper spotNumber={spotNumber} activeOrderNumber={activeOrderNumber}/>
+          </Col>
+        </Row>
+      </Container>
     </Card.Body>
-    <Card.Footer className="text-muted"><b>Updated:</b> 2 minutes ago</Card.Footer>
+    <Card.Footer className="text-muted"><b>Updated:</b> {lastUpdated}</Card.Footer>
   </Card>
 );
 
