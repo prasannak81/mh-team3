@@ -50,6 +50,7 @@ services:
       MVSENSOR_API_KEY: ${MVSENSOR_API_KEY:-test}
       MVSENSOR_SERIAL: ${MVSENSOR_SERIAL:-test}
       MVSENSOR_WEBHOOK_URL: ${MVSENSOR_WEBHOOK_URL:-http://chatbot:5030}
+      MVSENSOR_DBAPI_URL: ${MVSENSOR_DBAPI_URL:-http://api:8080}
     links:
       - chatbot
 

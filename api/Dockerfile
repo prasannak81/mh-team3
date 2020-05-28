@@ -43,6 +43,8 @@ RUN UNIT_ONLY=True pytest -v --color=yes test/
 #
 FROM base AS final
 
+EXPOSE 8080
+
 # Copy in just app code
 COPY ./quickpickup/ /usr/local/src/quickpickup/
 
