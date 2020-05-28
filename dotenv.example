@@ -1,3 +1,4 @@
+# This file should be renamed to .env and replaced with actual values
 # These are required for the stack to work
 MVSENSOR_API_KEY=6becXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX9ea1
 MVSENSOR_SERIAL=Q2GV-XXXX-XXXX
