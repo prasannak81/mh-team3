@@ -281,6 +281,22 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [[package]]
 category = "main"
+description = "Mock out responses from the requests package"
+name = "requests-mock"
+optional = false
+python-versions = "*"
+version = "1.8.0"
+
+[package.dependencies]
+requests = ">=2.3,<3"
+six = "*"
+
+[package.extras]
+fixture = ["fixtures"]
+test = ["fixtures", "mock", "purl", "pytest", "sphinx", "testrepository (>=0.0.18)", "testtools"]
+
+[[package]]
+category = "main"
 description = "A utility belt for advanced users of python-requests"
 name = "requests-toolbelt"
 optional = false
@@ -291,7 +307,7 @@ version = "0.9.1"
 requests = ">=2.0.1,<3.0.0"
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Python 2 and 3 compatibility utilities"
 name = "six"
 optional = false
@@ -374,7 +390,7 @@ dev = ["pytest", "pytest-timeout", "coverage", "tox", "sphinx", "pallets-sphinx-
 watchdog = ["watchdog"]
 
 [metadata]
-content-hash = "3f7b0a21e1110af727f00fb36c6e6c258abb0218bc6552ac1c68cace8acaaf00"
+content-hash = "54c52c3a84687953eb2b860034d4db0f631a91469eb8fe625e563fb967884824"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -580,6 +596,10 @@ regex = [
 requests = [
     {file = "requests-2.23.0-py2.py3-none-any.whl", hash = "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee"},
     {file = "requests-2.23.0.tar.gz", hash = "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"},
+]
+requests-mock = [
+    {file = "requests-mock-1.8.0.tar.gz", hash = "sha256:e68f46844e4cee9d447150343c9ae875f99fa8037c6dcf5f15bf1fe9ab43d226"},
+    {file = "requests_mock-1.8.0-py2.py3-none-any.whl", hash = "sha256:11215c6f4df72702aa357f205cf1e537cffd7392b3e787b58239bde5fb3db53b"},
 ]
 requests-toolbelt = [
     {file = "requests-toolbelt-0.9.1.tar.gz", hash = "sha256:968089d4584ad4ad7c171454f0a5c6dac23971e9472521ea3b6d49d610aa6fc0"},

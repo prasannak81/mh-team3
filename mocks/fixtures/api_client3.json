@@ -1,0 +1,55 @@
+{
+    "response_code": 200,
+    "timestamp": "2020-05-28T10:52:49+00:00",
+    "success": true,
+    "data": {
+        "user": [
+            {
+                "id": "122",
+                "first_name": "Jamie",
+                "last_name": "Lee",
+                "gender": "M",
+                "date_of_birth": "1951-12-10",
+                "location": "Bost",
+                "postcode": "21212",
+                "email": "jlee@example.com",
+                "mobile": "1555523124123",
+                "locale": "en_US",
+                "first_seen": "2013-10-11T11:01:49+00:00",
+                "last_seen": "2020-01-07T08:18:02+00:00",
+                "mac": "00-00-17-AB-00-02",
+                "macs": [
+                    "00-00-17-AB-00-01"
+                ],
+                "visits": "21",
+                "source": "Facebook",
+                "unsubscribed": true,
+                "unsubscribed_at": "2019-05-21T22:52:42+00:00",
+                "terms_signed": [
+                    {
+                        "document": "terms_cq-company_12345",
+                        "dateSigned": "2018-11-06 10:17:53",
+                        "locale": "en_US",
+                        "venue": 821
+                    }
+                ],
+                "form_data": [
+                    {
+                        "label": "What color car?",
+                        "response": "Black"
+                    }
+                ]
+            }
+        ],
+        "visits": [
+            {
+                "login_datetime": "2020-05-07T03:02:06+0000",
+                "post_asked": false,
+                "post_agreed": false,
+                "platform": "Apple",
+                "browser": "AppleWebKit",
+                "user_agent_string": "AppleWebKit/537.36 (KHTML, like Gecko)"
+            }
+        ]
+    }
+}
