@@ -33,26 +33,26 @@ spots:
     lastUpdated: ''
 orders:
   - _id: '1'
-    orderNumber: '19'
+    orderNumber: '1'
     orderName: "John Smith"
   - _id: '2'
-    orderNumber: '20'
+    orderNumber: '2'
     orderName: "Will Smith"
   - _id: '3'
-    orderNumber: '32'
+    orderNumber: '3'
     orderName: "Jamie Lee"
   - _id: '4'
-    orderNumber: '14'
+    orderNumber: '4'
     orderName: "Tim Long"
   - _id: '5'
-    orderNumber: '58'
+    orderNumber: '5'
     orderName: "Kathy Hicks"
   - _id: '6'
-    orderNumber: '68'
+    orderNumber: '6'
     orderName: "Ruth Dillon"
   - _id: '7'
-    orderNumber: '97'
+    orderNumber: '7'
     orderName: "Michelle Moore"
   - _id: '8'
-    orderNumber: '81'
+    orderNumber: '8'
     orderName: "Casey Torres"
