@@ -56,7 +56,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   private updateSpotStatus(orderNumber: string, orderName: string):void {
     const now:number = moment().unix()
 
-    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now, "_orderready": { "customerName": orderName } })
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now, "_orderready": { "customerName": orderName } }, 'PUT')
       .then(
         (resp) => {
           console.log(resp);
@@ -67,7 +67,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   private resetSpotStatus() {
     const now:number = moment().unix();
 
-    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now})
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now}, 'PUT')
       .then(
         (resp) => {
           console.log(resp);
