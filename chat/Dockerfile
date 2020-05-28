@@ -18,9 +18,10 @@ COPY pyproject.toml .
 
 # Install non-dev dependencies
 RUN poetry install --no-dev --no-interaction
+
 # Copy in just app code
 COPY . /local
 
 EXPOSE 5030
 
-CMD ["python", "app/chatbot/webex_teams_bot.py"]
+CMD ["python", "chatbot/webex_teams_bot.py"]

@@ -1,16 +1,14 @@
 version: '3.3'
 services:
   api:
-    image: quickpickup
+    image: quickpickup:api
     build:
       context: .
     environment:
       MONGO_URI: 'mongodb://mongo:27017'
     links:
       - mongo
-    ports:  # Public ports for direct debugging
-      # TODO: Remove this when we have an nginx proxy
-      - 8080:8080
+
   nginx:
     image: quickpickup:nginx
     build:
@@ -19,24 +17,29 @@ services:
       - api
     ports:
       - 80:80
+
   mongo:
     image: mongo
     volumes:
       - mongodata:/data/db
 
   chatbot:
-    image: webex_teams_chatbot
+    image: quickpickup:chatbot
     build:
-      context: .
-      dockerfile: Dockerfile.chat
-    env_file: chat.env
+      context: ./chat
     environment:
       ROOM_NAME: ${ROOM_NAME}
       WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
       WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
 
   mvsensor:
-    image: quickpickup-mvsensor-mh2020:v1.1
+    image: quickpickup:mvsensor
+    build:
+      context: ./mvsensor
+    environment:
+      MVSENSOR_API_KEY: ${MVSENSOR_API_KEY}
+      MVSENSOR_SERIAL: ${MVSENSOR_SERIAL}
+      MVSENSOR_WEBHOOK_URL: ${MVSENSOR_WEBHOOK_URL}
     links:
       - chatbot
 
