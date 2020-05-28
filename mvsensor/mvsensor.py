@@ -75,12 +75,11 @@ class MerakiClientApp:
 
 
 class MVSenseAPI(MerakiClientApp):
-    def __init__(self, api_key, serial, zone_count=4, interval=30):
+    def __init__(self, api_key, serial, zone_count=4):
         self._api_endpoint = "devices"
         self.api_key = api_key
         self.serial = serial
         self.zone_count = zone_count
-        self.interval = interval
         self.rest_client = MerakiClientApp()
 
     # def query_mvsense(self, serial, query_url, **kwargs):
@@ -144,9 +143,9 @@ def main():
     assert team_url, "Missing MVSENSOR_WEBHOOK_URL"
 
     zone_count = os.environ.get("MVSENSOR_ZONE_COUNT", 4)
-    interval = os.environ.get("MVSENSOR_INTERVAL", 30)
+    interval = int(os.environ.get("MVSENSOR_INTERVAL", '30'))
 
-    search_obj = MVSenseAPI(api_key, serial, zone_count, interval)
+    search_obj = MVSenseAPI(api_key, serial, zone_count)
 
     ## Analytics zoners recent
     error_str = "Error:(.*)"
@@ -209,7 +208,7 @@ def main():
             print(
                 "-----------------------------------------------------------------------------------------------------------\n"
             )
-        time.sleep(search_obj.interval)
+        time.sleep(interval)
     ## Analytics zoners live
     # result = search_obj.query_mvsense('Q2GV-7HEL-HC6C','camera/analytics/live')
     # print result
