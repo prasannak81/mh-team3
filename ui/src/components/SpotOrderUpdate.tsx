@@ -16,7 +16,6 @@ const SpotOrderUpdate: React.FC<SpotOrderUpdateProps> = ({ orders, spotNumber, a
       <Form.Control as="select" value={activeOrderNumber} onChange={onChangeHandler}>
         <option>-</option>
         {orders.map((order, idx) => {
-          console.log(order.orderNumber === activeOrderNumber);
           return <option key={idx} value={order.orderNumber}>(#{order.orderNumber}) {order.orderName}</option>
         })}
         <option>INVALID</option>
