@@ -2,6 +2,7 @@ import React, { Component, ChangeEvent } from 'react'
 import SpotOrderUpdate from './SpotOrderUpdate'
 import { Order } from '../common/data_types'
 import get_api from '../common/get_api_typed'
+import { APIBASE } from '../common/helpers'
 
 const initialState: SpotOrderUpdateWrapperState = { orders: [], activeOrderNumber: "" }
 type SpotOrderUpdateWrapperState = {
@@ -13,7 +14,7 @@ type State = Readonly<typeof initialState>
 interface SpotOrderUpdateWrapperProps {
   spotNumber: number
   activeOrderNumber?: string
-  spotUpdater: (orderNumber: string) => void
+  spotUpdater: (orderNumber: string, orderName: string) => void
 }
 
 class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, State> {
@@ -38,7 +39,7 @@ class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, Stat
 
   private spotOrderChangeHandler = (event: ChangeEvent<HTMLSelectElement>): void => {
     this.setState({activeOrderNumber: event.target.value})
-    this.props.spotUpdater(event.target.value);
+    this.props.spotUpdater(event.target.value, (this.state.orders[parseInt(event.target.value)-1].orderName || "Not Set"));
   }
 
   componentWillReceiveProps(nextProps: SpotOrderUpdateWrapperProps) {
@@ -46,7 +47,7 @@ class SpotOrderUpdateWrapper extends Component<SpotOrderUpdateWrapperProps, Stat
   }
 
   componentDidMount() {
-    get_api<Order[]>("http://localhost:5000/api/read/orders")
+    get_api<Order[]>(APIBASE+"/read/orders")
       .then(
         (newOrders) => {
           this.setState({ orders: newOrders })

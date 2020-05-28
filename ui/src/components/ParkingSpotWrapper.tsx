@@ -3,6 +3,7 @@ import ParkingSpot from './ParkingSpot'
 import { Order, ParkingSpotInfo, ParkingSpotStatus } from '../common/data_types'
 import get_api from '../common/get_api_typed'
 import post_api from '../common/post_api_typed'
+import { APIBASE } from '../common/helpers'
 
 const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: ""} }
 type ParkingSpotWrapperState = {
@@ -36,7 +37,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private getSpotStatus() {
-    get_api<ParkingSpotInfo>("http://localhost:5000/api/read/spots/"+this.props.spotNumber)
+    get_api<ParkingSpotInfo>(APIBASE+"/read/spots/"+this.props.spotNumber)
       .then(
         (spotInfo) => {
           this.setState({ info: spotInfo })
@@ -48,17 +49,21 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
       .catch(err => {console.log(err)});
   }
 
-  private updateSpotStatus(orderNumber: string):void {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO"}) //TODO: Set as current ISO
+  private updateSpotStatus(orderNumber: string, orderName: string):void {
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO", "_trigger": { "action": "notify", "customerName": orderName } }) //TODO: Set as current ISO
       .then(
         (resp) => {
           console.log(resp);
         })
       .catch(err => {console.log(err)});
+    post_api<{}>(APIBASE+"/webex-teams/update-order", {spotNumber: this.props.spotNumber, customerName: orderName, orderNumber: orderNumber})
+      .then((resp) => {
+        console.log(resp);
+      }).catch(err => { console.log(err)});
   }
 
   private resetSpotStatus() {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"}) //TODO: Set as current ISO
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"}) //TODO: Set as current ISO
       .then(
         (resp) => {
           console.log(resp);

@@ -12,7 +12,7 @@ interface ParkingSpotProps {
   spotStatus: string,
   lastUpdated: string,
   activeOrderNumber: string,
-  spotUpdater: (orderNumber: string) => void
+  spotUpdater: (orderNumber: string, orderName: string) => void
 }
 
 type ParkingSpotStatusColor = "info" | "warning" | "success" | "danger" | undefined;
