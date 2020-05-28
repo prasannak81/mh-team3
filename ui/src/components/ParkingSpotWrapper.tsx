@@ -38,12 +38,15 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private getSpotStatus() {
-    get_api<ParkingSpotInfo>(APIBASE+"/read/spots/"+this.props.spotNumber)
+    get_api<ParkingSpotInfo[]>(APIBASE+"/read/spots/"+this.props.spotNumber)
       .then(
         (spotInfo) => {
-          this.setState({ info: spotInfo })
-          if(spotInfo.status === ParkingSpotStatus.Departed) {
-            this.resetSpotStatus()
+          if(spotInfo.length >=1) {
+            let thisSpotInfo:ParkingSpotInfo = spotInfo[0]
+            this.setState({ info: thisSpotInfo })
+            if(thisSpotInfo.status === ParkingSpotStatus.Departed) {
+              this.resetSpotStatus()
+            }
           }
         }
         )
