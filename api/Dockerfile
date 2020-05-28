@@ -32,8 +32,11 @@ COPY . /usr/local/src/
 # Codestyle check
 RUN black --check .
 
-# Tests
-RUN pytest -v --color=yes test/
+# Code convention and syntax check
+RUN flake8 .
+
+# Run pure unit tests
+RUN UNIT_ONLY=True pytest -v --color=yes test/
 
 ###################
 # Final image stage

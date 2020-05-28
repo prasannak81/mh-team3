@@ -182,3 +182,48 @@ def delete(obj_type, _id):
         flask.abort(400)
 
     return flask.jsonify({"count": result})
+
+
+@app.route("/initialize", methods=["GET"])
+def initialize():
+    """
+    Simple helper to initialize the database.
+
+    """
+    log = logging.getLogger("quickpickup.initialize")
+    log.info("Initializing database.")
+    # Only import these modules if we're using them...
+    import os
+    import yaml
+
+    try:
+        from yaml import CLoader as Loader
+    except ImportError:
+        from yaml import Loader
+
+    # Find our default data
+    default = os.path.join(os.path.dirname(__file__), "initialize.yml")
+
+    # Allow file injection via volume mounts, which might be a bad idea
+    data = flask.request.args.get("data", default)
+
+    with open(data) as data:
+        data = yaml.load(data, Loader=Loader)
+
+    preserve = flask.request.args.get("preserve", None)
+    if not preserve:
+        log.info("Clearing database collections.")
+        for obj_type in data:
+            db.collection(obj_type).delete_many({})
+
+    log.info("Inserting data.")
+    for obj_type in data:
+        try:
+            coll = db.collection(obj_type)
+            # Insert objects individually so errors don't hurt anyone
+            for obj in data[obj_type]:
+                coll.insert_one(obj)
+        except pymongo.errors.OperationFailure as err:
+            log.debug(err)
+
+    return "OK"

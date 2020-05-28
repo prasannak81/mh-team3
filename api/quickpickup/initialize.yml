@@ -1,0 +1,52 @@
+spots:
+  - _id: '1'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '2'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '3'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '4'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '5'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '6'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '7'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+  - _id: '8'
+    status: OPEN
+    orderNumber: ''
+    lastUpdated: ''
+orders:
+  - _id: '1'
+    orderNumber: '1'
+    orderName: "John Cleese"
+  - _id: '2'
+    orderNumber: '2'
+    orderName: "Michael Palin"
+  - _id: '3'
+    orderNumber: '3'
+    orderName: "Terry Gilliam"
+  - _id: '4'
+    orderNumber: '4'
+    orderName: "Terry Jones"
+  - _id: '5'
+    orderNumber: '5'
+    orderName: "Eric Idle"
+  - _id: '6'
+    orderNumber: '6'
+    orderName: "Graham Chapman"

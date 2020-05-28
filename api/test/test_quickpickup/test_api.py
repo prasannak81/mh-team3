@@ -1,7 +1,3 @@
-import sys
-
-print(sys.path)
-
 from quickpickup import api
 
 
