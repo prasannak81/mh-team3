@@ -14,23 +14,27 @@ interface ParkingSpotProps {
   spotUpdater: (orderNumber: string) => void
 }
 
-type ParkingSpotBorderColor = "info" | "warning" | "success" | undefined;
+type ParkingSpotStatusColor = "info" | "warning" | "success" | "danger" | undefined;
 
 const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber, spotUpdater }:ParkingSpotProps) => {
-  let borderColor:ParkingSpotBorderColor = undefined;
+  let borderColor:ParkingSpotStatusColor = undefined;
+  const waitingFor:number = Math.floor(Math.random() * 11);
+
   switch(spotStatus) {
     case ParkingSpotStatus.Arrived:
       borderColor = "info"
       break;
     case ParkingSpotStatus.Waiting:
-      borderColor = "warning"
+      borderColor = (waitingFor >= 5 ? "danger" : "warning");
       break;
     case ParkingSpotStatus.Departed:
       borderColor = "success"
       break;
   }
+
+
   return <Card className="text-center" style={{ marginTop: '15px', marginBottom: '15px' }} border={borderColor}>
-    <Card.Header>Parking Spot <b>{spotNumber || "?"}</b><br /><b>{spotStatus} {(spotStatus === ParkingSpotStatus.Waiting) && <>(7 minutes)</>} </b></Card.Header>
+    <Card.Header>Parking Spot <b>{spotNumber || "?"}</b><br /><b>{spotStatus} {(spotStatus === ParkingSpotStatus.Waiting) && <>({waitingFor} minutes)</>} </b></Card.Header>
     <Card.Body>
       <Container>
         <Row>

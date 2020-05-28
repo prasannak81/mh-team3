@@ -15,10 +15,6 @@ interface ParkingSpotWrapperProps {
   spotNumber: number
 }
 
-type determineStateFunction = () => Promise<string>;
-type btnClickHandlerFunction = () => void;
-
-
 class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   readonly state: State = initialState
   render() {
@@ -51,7 +47,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
         (spotInfo) => {
           this.setState({ info: spotInfo })
           if(spotInfo.status === ParkingSpotStatus.Departed) {
-            setTimeout(this.resetSpotStatus.bind(this), 3000)
+            this.resetSpotStatus()
           }
         }
         )
@@ -59,7 +55,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private updateSpotStatus(orderNumber: string):void {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: "WAITING", orderNumber: orderNumber, lastUpdated: "TODO"})
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO"})
       .then(
         (resp) => {
           console.log(resp);
@@ -68,7 +64,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private resetSpotStatus() {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: "OPEN", orderNumber: "", lastUpdated: "TODO"})
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"})
       .then(
         (resp) => {
           console.log(resp);
