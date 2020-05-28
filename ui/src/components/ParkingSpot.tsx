@@ -18,7 +18,9 @@ type ParkingSpotStatusColor = "info" | "warning" | "success" | "danger" | undefi
 
 const ParkingSpot: React.FC<ParkingSpotProps> = ({ spotNumber, spotStatus, lastUpdated, activeOrderNumber, spotUpdater }:ParkingSpotProps) => {
   let borderColor:ParkingSpotStatusColor = undefined;
-  const waitingFor:number = Math.floor(Math.random() * 11);
+  const waitingFor:number = Math.floor(Math.random() * 11); //TODO: Determine # minutes from lastUpdated
+
+  //TODO: convert lastUpdated from ISO to relative time
 
   switch(spotStatus) {
     case ParkingSpotStatus.Arrived:

@@ -55,7 +55,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private updateSpotStatus(orderNumber: string):void {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO"})
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO"}) //TODO: Set as current ISO
       .then(
         (resp) => {
           console.log(resp);
@@ -64,7 +64,7 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private resetSpotStatus() {
-    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"})
+    post_api<ParkingSpotInfo>("http://localhost:5000/api/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"}) //TODO: Set as current ISO
       .then(
         (resp) => {
           console.log(resp);
