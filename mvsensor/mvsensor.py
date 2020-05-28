@@ -1,3 +1,4 @@
+import os
 import time
 import re
 import json
@@ -74,7 +75,7 @@ class MerakiClientApp:
 
 
 class MVSenseAPI(MerakiClientApp):
-    def __init__(self, api_key, serial, interval=30, zone_count=4):
+    def __init__(self, api_key, serial, zone_count=4, interval=30):
         self._api_endpoint = "devices"
         self.api_key = api_key
         self.serial = serial
@@ -134,11 +135,19 @@ def webex_team_post(url, camera_feed):
 
 def main():
     api_key = os.environ.get("MVSENSOR_API_KEY")
+    assert api_key, "Missing MVSENSOR_API_KEY"
+
     serial = os.environ.get("MVSENSOR_SERIAL")
-    team_url = os.environ.get("MV_SENSOR_WEBHOOK_URL")
-    zone_count = os.environ.get("MV_SENSOR_ZONE_COUNT", 4)
-    interval = os.environ.get("MV_SENSOR_INTERVAL", 30)
+    assert serial, "Missing MVSENSOR_SERIAL"
+
+    team_url = os.environ.get("MVSENSOR_WEBHOOK_URL")
+    assert team_url, "Missing MVSENSOR_WEBHOOK_URL"
+
+    zone_count = os.environ.get("MVSENSOR_ZONE_COUNT", 4)
+    interval = os.environ.get("MVSENSOR_INTERVAL", 30)
+
     search_obj = MVSenseAPI(api_key, serial, zone_count, interval)
+
     ## Analytics zoners recent
     error_str = "Error:(.*)"
     pattern = re.compile(error_str)
