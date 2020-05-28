@@ -194,7 +194,8 @@ def update_order():
                 response = api.messages.create(
                     roomId=room.id, markdown=content)
                 LOGGER.info(response)
-
+        
+        return "OK"
 
 if __name__ == "__main__":
     flask_app.run(host="0.0.0.0", port=5030)
