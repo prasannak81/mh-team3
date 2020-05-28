@@ -1,0 +1,6 @@
+pymongo
+pprint
+pympler
+requests
+PyYaml
+#urllib

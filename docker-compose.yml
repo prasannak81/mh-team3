@@ -14,27 +14,46 @@ services:
       - mongo
     ports:  # Public ports for direct debugging
       - 8080:8080
+
+  nginx:
+    image: quickpickup:nginx
+    build:
+      context: ./ui
+    links:
+      - api
+    ports:
+      - 80:80
+    command: [nginx-debug, '-g', 'daemon off;']
+
   mongo:
     image: mongo
     ports:  # Public ports for direct debugging
       - 27017:27017
-    # TODO: Volume mounts for "production" data so we don't lose anything on
-    # restarts
+    logging:
+      driver: none
+
   chatbot:
     image: webex_teams_chatbot:0.3.1
     build:
       context: .
       dockerfile: Dockerfile.chat
-    env_file: chat.env
+    # Use .env file instead
+    # env_file: chat.env
     environment:
-      ROOM_NAME: ${ROOM_NAME}
-      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME}
-      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN}
+      ROOM_NAME: ${ROOM_NAME:-test}
+      WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME:-test}
+      WEBEX_TEAMS_ACCESS_TOKEN: ${WEBEX_TEAMS_ACCESS_TOKEN:-test}
     ports:
       - 5030:5030
 
   mvsensor:
-    image: quickpickup-mvsensor-mh2020:v1.1
+    image: quickpickup:mvsensor
+    build:
+      context: ./mvsensor
+    environment:
+      MVSENSOR_API_KEY: ${MVSENSOR_API_KEY:-test}
+      MVSENSOR_SERIAL: ${MVSENSOR_SERIAL:-test}
+      MVSENSOR_WEBHOOK_URL: ${MVSENSOR_WEBHOOK_URL:-http://chatbot:5030}
     links:
       - chatbot
 
@@ -48,4 +67,4 @@ services:
       MONGO_URI: 'mongodb://mongo:27017'
       INTEGRATION_TEST: 'True'
     ports: []
-    command: pytest -v --color=yes ./test
+    command: pytest -vv --color=yes ./test
