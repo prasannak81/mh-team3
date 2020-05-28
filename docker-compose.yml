@@ -37,8 +37,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.chat
-    # Use .env file instead
-    # env_file: chat.env
     environment:
       ROOM_NAME: ${ROOM_NAME:-test}
       WEBEX_BOT_USERNAME: ${WEBEX_BOT_USERNAME:-test}
