@@ -6,6 +6,7 @@ services:
       context: .
     links:
       - mongo
+      - chatbot
 
   nginx:
     image: quickpickup:nginx

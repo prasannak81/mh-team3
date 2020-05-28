@@ -10,6 +10,7 @@ services:
       FLASK_APP: quickpickup.api
     links:
       - mongo
+      - chatbot
     ports:  # Public ports for direct debugging
       - 8080:8080
 
