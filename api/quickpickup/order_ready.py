@@ -37,7 +37,7 @@ def webex_team_order_update(order_number, spot_number, customer_name):
         response = requests.post(
             url,
             headers={"Content-type": "application/json"},
-            data={
+            json={
                 "orderNumber": order_number,
                 "spotNumber": spot_number,
                 "customerName": customer_name,
