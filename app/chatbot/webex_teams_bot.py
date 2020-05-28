@@ -104,12 +104,12 @@ def camera_listener():
                 f"Vehicle has arrived in Parking Space #{request.json['parking_space']}"
             )
         elif request.json["type"] == "departure":
-            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']}, was there for {int(request.json['time_elapsed'])} seconds"
+            content = f"Vehicle has departed from Parking Space #{request.json['parking_space']} seconds"
 
         for room in ALL_ROOMS:
             if ROOM_NAME in room.title:
                 # Send camera picture to the WebEx Teams chat as the bot
-                response = api.messages.create(roomId=room.id, markdown=f"## {content}{request.json['feed_url']}")
+                response = api.messages.create(roomId=room.id, markdown=f"## {content}")
                 LOGGER.info(response)
 
         return "OK"
