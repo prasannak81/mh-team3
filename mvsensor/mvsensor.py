@@ -133,7 +133,7 @@ def webex_team_post(url, camera_feed):
 
 
 def update_spot(url, spot_number, status):
-    url = url + "/update/spots/" + spot_number
+    url = url + "/update/spots/" + str(spot_number)
     try:
         response = requests.put(
             url,
