@@ -17,6 +17,7 @@ app = flask.Flask(__name__)
 
 hooks.register("spots", order_ready)
 
+
 @app.route("/", methods=["GET"])
 def index():
     """ Simple healthcheck endpoint. """
