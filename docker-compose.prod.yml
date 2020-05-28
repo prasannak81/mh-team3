@@ -3,7 +3,7 @@ services:
   api:
     image: quickpickup:api
     build:
-      context: .
+      context: ./api
     links:
       - mongo
       - chatbot
