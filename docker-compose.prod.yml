@@ -21,6 +21,8 @@ services:
     image: mongo
     volumes:
       - mongodata:/data/db
+    logging:
+      driver: none
 
   chatbot:
     image: quickpickup:chatbot
