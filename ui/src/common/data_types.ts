@@ -13,5 +13,5 @@ export enum ParkingSpotStatus {
 export type ParkingSpotInfo = {
   status: ParkingSpotStatus
   orderNumber: string
-  lastUpdated: string
+  lastUpdated: number
 }

@@ -4,8 +4,9 @@ import { Order, ParkingSpotInfo, ParkingSpotStatus } from '../common/data_types'
 import get_api from '../common/get_api_typed'
 import post_api from '../common/post_api_typed'
 import { APIBASE } from '../common/helpers'
+import moment from 'moment'
 
-const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: ""} }
+const initialState: ParkingSpotWrapperState = { orders: [], info: { status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: 0} }
 type ParkingSpotWrapperState = {
   orders: Order[]
   info: ParkingSpotInfo
@@ -50,7 +51,9 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private updateSpotStatus(orderNumber: string, orderName: string):void {
-    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO", "_orderready": { "customerName": orderName } }) //TODO: Set as current ISO
+    const now:number = moment().unix()
+
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: now, "_orderready": { "customerName": orderName } })
       .then(
         (resp) => {
           console.log(resp);
@@ -59,7 +62,9 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private resetSpotStatus() {
-    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: "TODO"}) //TODO: Set as current ISO
+    const now:number = moment().unix();
+
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Open, orderNumber: "", lastUpdated: now})
       .then(
         (resp) => {
           console.log(resp);
