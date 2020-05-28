@@ -50,16 +50,12 @@ class ParkingSpotWrapper extends Component<ParkingSpotWrapperProps, State> {
   }
 
   private updateSpotStatus(orderNumber: string, orderName: string):void {
-    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO", "_trigger": { "action": "notify", "customerName": orderName } }) //TODO: Set as current ISO
+    post_api<ParkingSpotInfo>(APIBASE+"/update/spots/"+this.props.spotNumber, {status: ParkingSpotStatus.Waiting, orderNumber: orderNumber, lastUpdated: "TODO", "_orderready": { "customerName": orderName } }) //TODO: Set as current ISO
       .then(
         (resp) => {
           console.log(resp);
         })
       .catch(err => {console.log(err)});
-    post_api<{}>(APIBASE+"/webex-teams/update-order", {spotNumber: this.props.spotNumber, customerName: orderName, orderNumber: orderNumber})
-      .then((resp) => {
-        console.log(resp);
-      }).catch(err => { console.log(err)});
   }
 
   private resetSpotStatus() {
