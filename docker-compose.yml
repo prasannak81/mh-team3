@@ -14,6 +14,18 @@ services:
       - mongo
     ports:  # Public ports for direct debugging
       - 8080:8080
+  nginx:
+    image: quickpickup:nginx
+    build:
+      context: ./ui
+    links:
+      - api
+    ports:
+      - 80:80
+      # No SSL support (yet)
+      # - 443:443
+    # TODO: Volume mount in React build for dev support?
+    command: [nginx-debug, '-g', 'daemon off;']
   mongo:
     image: mongo
     ports:  # Public ports for direct debugging
