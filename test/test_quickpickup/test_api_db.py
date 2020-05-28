@@ -129,10 +129,6 @@ def test_hooks_work():
     }
 
     resp = client.get("/read/test_hook/1")
-    assert resp.get_json() == {
-        "_id": "1",
-        "test": False,
-        "updated": False,
-        "hooked": True,
-        "unhooked": True,
-    }
+    assert resp.get_json() == [
+        {"_id": "1", "test": False, "updated": False, "hooked": True, "unhooked": True}
+    ]

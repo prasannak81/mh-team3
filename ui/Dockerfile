@@ -23,11 +23,6 @@ RUN npm run build
 
 FROM nginx AS final
 
-COPY nginx.conf /etc/nginx/conf.d/default.tmpl
-
-ARG API_SERVICE=api:8080
-ENV API_SERVICE=$API_SERVICE
-
-RUN envsubst < /etc/nginx/conf.d/default.tmpl > /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /usr/local/src/build /usr/share/nginx/html
