@@ -132,6 +132,23 @@ def webex_team_post(url, camera_feed):
         print(e)
 
 
+def update_spot(url, spot_number, status):
+    url = url + "/update/spots/" + str(spot_number)
+    try:
+        response = requests.put(
+            url,
+            headers={"Content-type": "application/json"},
+            json={
+                "status": status,
+                "orderNumber": "",
+                "lastUpdated": int(time.time()),
+            },
+        )
+        print(response)
+    except Exception as e:
+        print(e)
+
+
 def main():
     api_key = os.environ.get("MVSENSOR_API_KEY")
     assert api_key, "Missing MVSENSOR_API_KEY"
@@ -142,8 +159,11 @@ def main():
     team_url = os.environ.get("MVSENSOR_WEBHOOK_URL")
     assert team_url, "Missing MVSENSOR_WEBHOOK_URL"
 
+    dbapi_url = os.environ.get("MVSENSOR_DBAPI_URL")
+    assert dbapi_url, "Missing MVSENSOR_DBAPI_URL"
+
     zone_count = os.environ.get("MVSENSOR_ZONE_COUNT", 4)
-    interval = int(os.environ.get("MVSENSOR_INTERVAL", '30'))
+    interval = int(os.environ.get("MVSENSOR_INTERVAL", "30"))
 
     search_obj = MVSenseAPI(api_key, serial, zone_count)
 
@@ -186,6 +206,7 @@ def main():
                         }
                         print(posted)
                         webex_team_post(team_url, posted[zoneId])
+                        update_spot(dbapi_url, zoneId, "ARRIVED")
                         # post_to_webhook()
                 else:
                     if zoneId in posted:
@@ -204,6 +225,7 @@ def main():
                             }
                             print(departure)
                             webex_team_post(team_url, departure)
+                            update_spot(dbapi_url, zoneId, "DEPARTED")
                             posted.pop(zoneId)
             print(
                 "-----------------------------------------------------------------------------------------------------------\n"
